@@ -19,13 +19,6 @@ func TestLinearSearch_Int(t *testing.T) {
 	// Get a new assertion object for use within this function
 	assert := assert.New(t)
 
-	// Create a temporory file and redirect standard output
-	close, err := redirectStdout()
-	if err != nil {
-		log.Panic(err)
-	}
-	defer close()
-
 	// Get a slice of structs defining the test data
 	data := []LinearSearchData[int]{
 		// Test for value data that occurs once
@@ -39,7 +32,11 @@ func TestLinearSearch_Int(t *testing.T) {
 	}
 
 	for _, datum := range data {
-		assert.Equal(datum.result, LinearSearch(datum.slice, datum.value))
+		reval, err := LinearSearch(datum.slice, datum.value)
+		if err != nil {
+			log.Panic(err)
+		}
+		assert.Equal(datum.result, reval)
 	}
 }
 
@@ -47,13 +44,6 @@ func TestLinearSearch_Int(t *testing.T) {
 func TestLinearSearch_String(t *testing.T) {
 	// Get a new assertion object for use within this function
 	assert := assert.New(t)
-
-	// Create a temporory file and redirect standard output
-	close, err := redirectStdout()
-	if err != nil {
-		log.Panic(err)
-	}
-	defer close()
 
 	data := []LinearSearchData[string]{
 		// Test for data which occurs once
@@ -69,6 +59,10 @@ func TestLinearSearch_String(t *testing.T) {
 	}
 
 	for _, datum := range data {
-		assert.Equal(datum.result, LinearSearch(datum.slice, datum.value))
+		reval, err := LinearSearch(datum.slice, datum.value)
+		if err != nil {
+			log.Panic(err)
+		}
+		assert.Equal(datum.result, reval)
 	}
 }
