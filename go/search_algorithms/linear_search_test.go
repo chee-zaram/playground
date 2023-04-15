@@ -18,7 +18,7 @@ type LinearSearchData[T comparable] struct {
 
 // redirectStdout suppresses output from the test being run.
 //
-// It returns a closure and error is any.
+// It returns a closure and error if any.
 // You should use defer to close the returned closure.
 func redirectStdout() (func(), error) {
 	close := func() {}
