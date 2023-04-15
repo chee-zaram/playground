@@ -22,9 +22,9 @@ func LinearSearch[T comparable](slice []T, value T) (int, error) {
 	log.Println("In LinearSearch")
 
 	for i, item := range slice {
-		log.Printf("Value checked at index [%v] = [%d]\n", item, i)
+		log.Printf("Value checked at index [%v] = [%v]\n", i, item)
 		if item == value {
-			log.Printf("Value found at index [%v] = [%d]\n\n", item, i)
+			log.Printf("Value found at index [%v] = [%v]\n\n", i, item)
 			return i, nil
 		}
 	}
