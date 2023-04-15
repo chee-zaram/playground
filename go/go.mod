@@ -1,4 +1,4 @@
-module github.com/chee-zaram/playground/go/search_algorithms
+module github.com/chee-zaram/playground/go
 
 go 1.20
 
