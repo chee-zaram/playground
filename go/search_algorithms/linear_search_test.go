@@ -1,9 +1,7 @@
 package searchalgorithms
 
 import (
-	"io/ioutil"
 	"log"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
