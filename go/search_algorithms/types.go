@@ -7,6 +7,8 @@ import (
 
 // NotFound is a constant for the return value of the search algorithm
 const NotFound = -1
+const logFile = "/tmp/searchalgorithms.log"
+const logFilePerm = 0644
 
 // redirectStdout suppresses output from the test being run.
 //
