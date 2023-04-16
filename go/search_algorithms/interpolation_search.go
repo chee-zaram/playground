@@ -25,7 +25,7 @@ func InterpolationSearch(slice []int, value int) (int, error) {
 	u_bound := len(slice) - 1
 
 	// Use interpolation formula to find the index of the value
-	for l_bound <= u_bound && slice[l_bound] < value && slice[u_bound] >= value {
+	for l_bound <= u_bound && slice[l_bound] <= value && slice[u_bound] >= value {
 		pos := l_bound + ((u_bound-l_bound)*(value-slice[l_bound]))/(slice[u_bound]-slice[l_bound])
 		log.Printf("Value at index [%d] = [%d]\n", pos, slice[pos])
 
