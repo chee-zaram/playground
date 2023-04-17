@@ -3,7 +3,6 @@ package searchalgorithms
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"golang.org/x/exp/constraints"
 )
@@ -17,13 +16,12 @@ import (
 // and error (if any).
 func ExponentialSearch[T constraints.Ordered](slice []T, value T) (int, error) {
 	// Set up logging file
-	file, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, logFilePerm)
+	close, err := setUpLogFile()
 	if err != nil {
 		return 0, fmt.Errorf("ExponentialSearch could not open log file: %w", err)
 	}
-	defer file.Close()
+	defer close()
 
-	log.SetOutput(file)
 	log.Printf("Performing Exponential Search on slice %v for target %v\n", slice, value)
 
 	size := len(slice)

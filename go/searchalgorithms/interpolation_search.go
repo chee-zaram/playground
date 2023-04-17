@@ -3,7 +3,6 @@ package searchalgorithms
 import (
 	"fmt"
 	"log"
-	"os"
 )
 
 // InterpolationSearch is a search algorithm that finds a value in a sorted slice of values.
@@ -13,12 +12,12 @@ import (
 // or “NotFound“ if the value is not found.
 func InterpolationSearch(slice []int, value int) (int, error) {
 	// Set up logging file
-	logFile, err := os.OpenFile("/tmp/searchalgorithms.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	close, err := setUpLogFile()
 	if err != nil {
 		return 0, fmt.Errorf("InterpolationSearch failed to open file: %w", err)
 	}
+	defer close()
 
-	log.SetOutput(logFile)
 	log.Printf("Performing Interpolation Search on slice %v\n", slice)
 
 	l_bound := 0
@@ -46,6 +45,5 @@ func InterpolationSearch(slice []int, value int) (int, error) {
 
 	// Value was not found
 	log.Printf("Value [%v] not found in slice\n\n", value)
-	logFile.Close()
 	return NotFound, nil
 }

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"math"
-	"os"
 
 	"golang.org/x/exp/constraints"
 )
@@ -15,12 +14,12 @@ import (
 // and any errors.
 func JumpSearch[T constraints.Ordered](slice []T, value T) (int, error) {
 	// Set up logging in a temp file
-	file, err := os.OpenFile("/tmp/searchalgorithms.log", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
+	close, err := setUpLogFile()
 	if err != nil {
 		return 0, fmt.Errorf("JumpSearch failed to open file: %w", err)
 	}
+	defer close()
 
-	log.SetOutput(file)
 	log.Printf("Performing Jump Search on slice %v for value %v", slice, value)
 
 	// Determine optimal jump size
@@ -53,6 +52,5 @@ func JumpSearch[T constraints.Ordered](slice []T, value T) (int, error) {
 	}
 
 	log.Printf("Value [%v] not found in slice\n\n", value)
-	file.Close()
 	return NotFound, nil
 }

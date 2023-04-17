@@ -3,7 +3,6 @@ package searchalgorithms
 import (
 	"fmt"
 	"log"
-	"os"
 )
 
 // LinearSearch finds the index of a value in a slice. It operates on comparable
@@ -13,12 +12,12 @@ import (
 // of the value if it is found, otherwise it returns “NotFound“.
 func LinearSearch[T comparable](slice []T, value T) (int, error) {
 	// Set up a log file
-	file, err := os.OpenFile("/tmp/searchalgorithms.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	close, err := setUpLogFile()
 	if err != nil {
-		return 0, fmt.Errorf("LinearSearch: failed to open file: %w", err)
+		return 0, fmt.Errorf("LinearSearch failed to open file: %w", err)
 	}
+	defer close()
 
-	log.SetOutput(file)
 	log.Println("In LinearSearch")
 
 	for i, item := range slice {
@@ -30,6 +29,5 @@ func LinearSearch[T comparable](slice []T, value T) (int, error) {
 	}
 
 	log.Printf("Value [%v] not found in slice\n\n", value)
-	file.Close()
 	return NotFound, nil
 }

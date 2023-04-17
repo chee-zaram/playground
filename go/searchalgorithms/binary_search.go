@@ -3,7 +3,6 @@ package searchalgorithms
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"golang.org/x/exp/constraints"
 )
@@ -13,14 +12,13 @@ import (
 // It takes in an Ordered slice and a value to find and returns the index of the value
 // or “NotFound“ if the value is not found in the slice.
 func BinarySearch[T constraints.Ordered](slice []T, value T) (int, error) {
-	// Open the log file
-	file, err := os.OpenFile("/tmp/searchalgorithms.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	// Setup logging file
+	close, err := setUpLogFile()
 	if err != nil {
-		return 0, fmt.Errorf("BinarySearch could not open log file: %w", err)
+		return 0, fmt.Errorf("BinarySearch failed toopen log file: %w", err)
 	}
+	defer close()
 
-	// Set it as logger
-	log.SetOutput(file)
 	log.Println("In BinarySearch")
 
 	var left, right = 0, len(slice) - 1
@@ -41,6 +39,5 @@ func BinarySearch[T constraints.Ordered](slice []T, value T) (int, error) {
 	}
 
 	log.Printf("Value [%v] not found in slice\n\n", value)
-	file.Close()
 	return NotFound, nil
 }
