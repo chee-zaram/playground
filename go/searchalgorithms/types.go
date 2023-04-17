@@ -2,6 +2,7 @@ package searchalgorithms
 
 import (
 	"io/ioutil"
+	"log"
 	"os"
 )
 
@@ -30,5 +31,16 @@ func redirectStdout() (func(), error) {
 	// Define closure to set Stdout back to old file
 	close = func() { os.Stdout = old }
 
+	return close, nil
+}
+
+// setUpLogFile sets the logging file
+func setUpLogFile() (func(), error) {
+	file, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, logFilePerm)
+	if err != nil {
+		return nil, err
+	}
+	log.SetOutput(file)
+	close := func() { file.Close() }
 	return close, nil
 }
