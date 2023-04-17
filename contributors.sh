@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Automatically adds new CONTRIBUTORS file of the github repo
+# Automatically adds new contributors to CONTRIBUTORS file of the repo
 
 # Exit immediately if a command returns a non-zero status
 set -e
