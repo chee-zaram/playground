@@ -23,21 +23,21 @@ func JumpSearch[T constraints.Ordered](slice []T, value T) (int, error) {
 	log.Printf("Performing Jump Search on slice %v for value %v", slice, value)
 
 	// Determine optimal jump size
-	size := len(slice)
-	step := int(math.Sqrt(float64(size)))
+	sliceLength := len(slice)
+	step := int(math.Sqrt(float64(sliceLength)))
 	log.Printf("Jump size is %d\n", step)
 
 	// Find block where value may exist
 	var u_bound, l_bound int
-	for u_bound < size && slice[u_bound] < value {
+	for u_bound < sliceLength && slice[u_bound] < value {
 		l_bound = u_bound
 		u_bound += step
 		log.Printf("Value at index [%d] = [%v]\n", l_bound, slice[l_bound])
 	}
 
 	// If block extends beyond the slice, make upper bound last index of slice
-	if u_bound >= size {
-		u_bound = size - 1
+	if u_bound >= sliceLength {
+		u_bound = sliceLength - 1
 	}
 
 	log.Printf("Value [%v] should be in block [%d,%d]. Performing linear search.\n", value, l_bound, u_bound)

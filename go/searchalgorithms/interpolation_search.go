@@ -20,19 +20,19 @@ func InterpolationSearch(slice []int, value int) (int, error) {
 
 	log.Printf("Performing Interpolation Search on slice %v\n", slice)
 
-	l_bound := 0
-	u_bound := len(slice) - 1
+	blockStartIndex := 0
+	blockEndIndex := len(slice) - 1
 
 	// Use interpolation formula to find the index of the value
-	for l_bound <= u_bound && slice[l_bound] <= value && slice[u_bound] >= value {
-		pos := l_bound + ((u_bound-l_bound)*(value-slice[l_bound]))/(slice[u_bound]-slice[l_bound])
+	for blockStartIndex <= blockEndIndex && slice[blockStartIndex] <= value && slice[blockEndIndex] >= value {
+		pos := blockStartIndex + ((blockEndIndex-blockStartIndex)*(value-slice[blockStartIndex]))/(slice[blockEndIndex]-slice[blockStartIndex])
 		log.Printf("Value at index [%d] = [%d]\n", pos, slice[pos])
 
 		switch {
 		case slice[pos] > value:
-			u_bound = pos - 1
+			blockEndIndex = pos - 1
 		case slice[pos] < value:
-			l_bound = pos + 1
+			blockStartIndex = pos + 1
 		default:
 			// Make sure it is the first occurence
 			for pos > 0 && slice[pos-1] == value {

@@ -11,6 +11,9 @@ import (
 //
 // It takes in an Ordered slice and a value to find and returns the index of the value
 // or “NotFound“ if the value is not found in the slice.
+//
+// `NB`: It doesn't return the first occurrence of the value. If this is what you want,
+// consider using `ExponentialSearch` which is an optimization of BinarySearch.
 func BinarySearch[T constraints.Ordered](slice []T, value T) (int, error) {
 	// Setup logging file
 	close, err := setUpLogFile()
@@ -21,17 +24,17 @@ func BinarySearch[T constraints.Ordered](slice []T, value T) (int, error) {
 
 	log.Println("In BinarySearch")
 
-	var left, right = 0, len(slice) - 1
+	var blockStartIndex, blockEndIndex = 0, len(slice) - 1
 
-	for left <= right {
-		pivot := (left + right) / 2
+	for blockStartIndex <= blockEndIndex {
+		pivot := (blockStartIndex + blockEndIndex) / 2
 		log.Printf("Value checked at index [%d] = [%v]\n", pivot, slice[pivot])
 
 		switch {
 		case slice[pivot] > value:
-			right = pivot - 1
+			blockEndIndex = pivot - 1
 		case slice[pivot] < value:
-			left = pivot + 1
+			blockStartIndex = pivot + 1
 		default:
 			log.Printf("Found [%v] at index [%d]\n\n", value, pivot)
 			return pivot, nil

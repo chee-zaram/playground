@@ -24,31 +24,32 @@ func ExponentialSearch[T constraints.Ordered](slice []T, value T) (int, error) {
 
 	log.Printf("Performing Exponential Search on slice %v for target %v\n", slice, value)
 
-	size := len(slice)
-	var upperBound, lowerBound = 1, 0
+	sliceLength := len(slice)
+	var blockStartIndex, blockEndIndex = 0, 1
 
 	// Find the suitable block where value could be
-	for upperBound < size && slice[upperBound] < value {
-		log.Printf("Value at index [%v] = [%v]\n", upperBound, slice[upperBound])
-		lowerBound = upperBound
-		upperBound *= 2
+	for blockEndIndex < sliceLength && slice[blockEndIndex] < value {
+		log.Printf("Value at index [%v] = [%v]\n", blockEndIndex, slice[blockEndIndex])
+		blockStartIndex = blockEndIndex
+		blockEndIndex *= 2
 	}
 
 	// Make sure we're not out of bounds
-	if upperBound >= size {
-		upperBound = size - 1
+	if blockEndIndex >= sliceLength {
+		blockEndIndex = sliceLength - 1
 	}
 
-	log.Printf("Value [%v] should be in block[%v,%v]\n", value, lowerBound, upperBound)
+	log.Printf("Value [%v] should be in block[%v,%v]\n", value, blockStartIndex, blockEndIndex)
+
 	// Perform binary search on the block to find an occurrence
-	reval, err := BinarySearch(slice[lowerBound:upperBound+1], value)
+	binarySearchResult, err := BinarySearch(slice[blockStartIndex:blockEndIndex+1], value)
 	if err != nil {
 		return 0, fmt.Errorf("ExponentialSearch could not perform binary search: %w", err)
 	}
 
 	// Value was found. Now, make sure it's the first occurrence
-	if reval != NotFound {
-		pos := reval + lowerBound
+	if binarySearchResult != NotFound {
+		pos := binarySearchResult + blockStartIndex
 		for pos > 0 && slice[pos-1] == value {
 			pos--
 		}
