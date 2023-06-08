@@ -24,7 +24,7 @@ func BinarySearch[T constraints.Ordered](slice []T, value T) (int, error) {
 
 	log.Println("In BinarySearch")
 
-	var blockStartIndex, blockEndIndex = 0, len(slice) - 1
+	blockStartIndex, blockEndIndex := 0, len(slice)-1
 
 	for blockStartIndex <= blockEndIndex {
 		pivot := (blockStartIndex + blockEndIndex) / 2
